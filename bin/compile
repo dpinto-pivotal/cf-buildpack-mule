@@ -4,6 +4,9 @@
 # Fail fast, fail hard
 set -eo pipefail
 
+# Mule Version
+MULE_VERSION=3.7.0
+
 # Directories
 BUILD_DIR=$1
 CACHE_DIR=$2
@@ -12,7 +15,7 @@ mkdir -p "$BUILD_DIR" "$CACHE_DIR"
 
 # Files
 JDK=jdk-7u67-linux-x64.tar.gz
-MULE=mule-standalone-3.5.0.tar.gz
+MULE=mule-standalone-$MULE_VERSION.tar.gz
 
 # Move app into deployment area
 cd $BUILD_DIR
@@ -25,12 +28,12 @@ then
 fi
 
 # Explode the Mule tarball to BUILD_DIR
-if [ ! -e $BUILD_DIR/local/mule-standalone-3.5.0 ]
+if [ ! -e $BUILD_DIR/local/mule-standalone-$MULE_VERSION ]
 then
   if [ ! -e $CACHE_DIR/$MULE ]
   then
     OLDPWD=$(pwd)
-    cd $CACHE_DIR && wget https://repository.mulesoft.org/nexus/content/repositories/releases/org/mule/distributions/mule-standalone/3.5.0/mule-standalone-3.5.0.tar.gz
+    cd $CACHE_DIR && wget https://repository.mulesoft.org/nexus/content/repositories/releases/org/mule/distributions/mule-standalone/$MULE_VERSION/mule-standalone-$MULE_VERSION.tar.gz
     cd $OLDPWD
   fi
   echo "------> Installing Mule ($MULE)..."
@@ -51,6 +54,6 @@ then
 fi
 
 # Move the app into position
-mv $BUILD_DIR/app.zip $BUILD_DIR/local/mule-standalone-3.5.0/apps/
+mv $BUILD_DIR/app.zip $BUILD_DIR/local/mule-standalone-$MULE_VERSION/apps/
 
 echo "Complete."
