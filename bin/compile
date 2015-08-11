@@ -19,6 +19,8 @@ MULE=mule-standalone-$MULE_VERSION.tar.gz
 
 # Move app into deployment area
 cd $BUILD_DIR
+ls -al
+echo "About to start"
 zip -r app.zip *
 cd -
 
